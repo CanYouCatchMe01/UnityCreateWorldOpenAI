@@ -1,16 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectCreator : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Serializable]
+    public class MeshData
+    {
+        public string name;
+        public Mesh mesh;
+    }
+    public MeshData[] myMeshData;
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
