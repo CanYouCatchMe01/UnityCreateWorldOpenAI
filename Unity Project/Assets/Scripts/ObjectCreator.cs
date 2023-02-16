@@ -25,8 +25,12 @@ public class ObjectCreator : MonoBehaviour
 
     void Start()
     {
-        string secretsPath = Application.streamingAssetsPath + "/secrets.json";
+        //Load keys
+        string secretsPath = Application.streamingAssetsPath + "/keys/secrets.json";
         JObject secrets = JObject.Parse(File.ReadAllText(secretsPath));
+        string openAIKey = secrets["OPENAI_API_KEY"].ToString();
+        string speechKey = secrets["SPEECH_KEY"].ToString();
+        string speechRegionKey = secrets["SPEECH_REGION"].ToString();
     }
 
     void Update()
