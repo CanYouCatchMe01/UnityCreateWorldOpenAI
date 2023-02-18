@@ -511,6 +511,8 @@ MonoBehaviour:
     mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
   - name: cylider
     mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  myInputfield: {fileID: 2142308711}
+  myRecordMic: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
