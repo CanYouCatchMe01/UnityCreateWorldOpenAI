@@ -22,13 +22,14 @@ public class ObjectCreator : MonoBehaviour
     }
     public MeshData[] myMeshData;
     public TMP_InputField myInputfield;
+    public TMP_Text myTPMText;
     
     //OpenAI
     OpenAI_API.OpenAIAPI myOpenAIAPI;
     Task<CompletionResult> myGenerateTask = null;
-    string aiText = "Create a json block from prompt.\nExample:\ntext:Create a blue cube at position zero zero zero\njson:{\"id\": 0, \"position\": {\"x\": 0, \"y\": 0, \"z\": 0}, \"scale\": {\"x\": 1.0, \"y\": 1.0, \"z\": 1.0}, \"shape\": \"cube\", \"color\": {\"r\": 0.0, \"g\": 0.0, \"b\": 1.0}}\ntext:remove or delete the blue cube\njson:{\"id\": 0, \"remove\": true}\nReal start with id 0:\ntext:";
-    string startSequence = "\njson:";
-    string restartSequence = "\ntext:\n";
+    string myAIText = "Create a json block from prompt.\nExample:\ntext:Create a blue cube at position zero zero zero\njson:{\"id\": 0, \"position\": {\"x\": 0, \"y\": 0, \"z\": 0}, \"scale\": {\"x\": 1.0, \"y\": 1.0, \"z\": 1.0}, \"shape\": \"cube\", \"color\": {\"r\": 0.0, \"g\": 0.0, \"b\": 1.0}}\ntext:remove or delete the blue cube\njson:{\"id\": 0, \"remove\": true}\nReal start with id 0:\ntext:";
+    const string myStartSequence = "\njson:";
+    const string myRestartSequence = "\ntext:\n";
 
     //Speech
     public bool myRecordMic = true;
@@ -71,6 +72,10 @@ public class ObjectCreator : MonoBehaviour
 
     void Update()
     {
+        //Update the text
+        myTPMText.text = myAIText;
+
+        //Update text with speech
         if (mySpeechText == "")
         {
             myPreviousInputText = myInputfield.text;
@@ -84,22 +89,30 @@ public class ObjectCreator : MonoBehaviour
             myInputfield.ActivateInputField(); //Text needs to be selected
         }
 
-        //User presses Enter
-        //if (myInputfield.text.Length > 0 && Input.GetKeyUp(KeyCode.Return)) 
-        //{
-        //    aiText += myInputfield.text + startSequence;
-        //    myGenerateTask = GenerateAIResponce(myOpenAIAPI, aiText); //Run async
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Submit();
+        }
 
-        //    myInputfield.text = ""; //Clear input
-        //}
+        //Wait for the AI responce
+        if (myGenerateTask != null && myGenerateTask.IsCompleted)
+        {
+            string responce = myGenerateTask.Result.ToString();
+            HandleAIResponce(responce);
+            myAIText += responce + myRestartSequence;
+            myGenerateTask = null;
+        }
+    }
 
-        //if (myGenerateTask != null && myGenerateTask.IsCompleted)
-        //{
-        //    string responce = myGenerateTask.Result.ToString();
-        //    HandleAIResponce(responce);
-        //    aiText += responce + restartSequence;
-        //    myGenerateTask = null;
-        //}
+    public void Submit()
+    {
+        if (myInputfield.text.Length > 0)
+        {
+            myAIText += myInputfield.text + myStartSequence;
+            //myGenerateTask = GenerateAIResponce(myOpenAIAPI, aiText); //Run async
+
+            myInputfield.text = ""; //Clear input
+        }
     }
 
     //Mic stuff
