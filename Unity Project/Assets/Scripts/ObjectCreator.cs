@@ -72,22 +72,23 @@ public class ObjectCreator : MonoBehaviour
 
     void Update()
     {
+        myInputfield.text = speechText;
         //User presses Enter
-        if (myInputfield.text.Length > 0 && Input.GetKeyUp(KeyCode.Return)) 
-        {
-            aiText += myInputfield.text + startSequence;
-            myGenerateTask = GenerateAIResponce(myOpenAIAPI, aiText); //Run async
+        //if (myInputfield.text.Length > 0 && Input.GetKeyUp(KeyCode.Return)) 
+        //{
+        //    aiText += myInputfield.text + startSequence;
+        //    myGenerateTask = GenerateAIResponce(myOpenAIAPI, aiText); //Run async
 
-            myInputfield.text = ""; //Clear input
-        }
+        //    myInputfield.text = ""; //Clear input
+        //}
 
-        if (myGenerateTask != null && myGenerateTask.IsCompleted)
-        {
-            string responce = myGenerateTask.Result.ToString();
-            HandleAIResponce(responce);
-            aiText += responce + restartSequence;
-            myGenerateTask = null;
-        }
+        //if (myGenerateTask != null && myGenerateTask.IsCompleted)
+        //{
+        //    string responce = myGenerateTask.Result.ToString();
+        //    HandleAIResponce(responce);
+        //    aiText += responce + restartSequence;
+        //    myGenerateTask = null;
+        //}
     }
 
     //Mic stuff
