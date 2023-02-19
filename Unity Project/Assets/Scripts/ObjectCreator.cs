@@ -10,6 +10,7 @@ using Microsoft.CognitiveServices.Speech.Audio;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 public class ObjectCreator : MonoBehaviour
 {
@@ -55,13 +56,15 @@ public class ObjectCreator : MonoBehaviour
 
         mySpeechRecognizer.Recognizing += (s, e) =>
         {
-            speechText = e.Result.Text;
+            speechText = e.Result.Text; //Change continuously
+            Debug.Log(speechText);
         };
 
         mySpeechRecognizer.Recognized += (s, e) =>
         {
-            myInputfield.text += speechText;
+            myInputfield.text += speechText; //Update the input when done speeching
             speechText = "";
+            Debug.Log(myInputfield.text);
         };
 
         StartOrStopSpeech();
