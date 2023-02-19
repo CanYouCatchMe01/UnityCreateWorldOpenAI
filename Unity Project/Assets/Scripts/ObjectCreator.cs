@@ -106,12 +106,13 @@ public class ObjectCreator : MonoBehaviour
 
     public void Submit()
     {
-        if (myInputfield.text.Length > 0)
+        if (myInputfield.text.Length > 0 && myGenerateTask == null)
         {
             myAIText += myInputfield.text + myStartSequence;
-            //myGenerateTask = GenerateAIResponce(myOpenAIAPI, aiText); //Run async
+            //myGenerateTask = GenerateAIResponce(myOpenAIAPI, myAIText); //Run async
 
             myInputfield.text = ""; //Clear input
+            myPreviousInputText = "";
         }
     }
 
