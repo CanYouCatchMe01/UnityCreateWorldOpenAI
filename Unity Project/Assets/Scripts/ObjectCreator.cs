@@ -33,7 +33,8 @@ public class ObjectCreator : MonoBehaviour
     //Speech
     public bool myRecordMic = true;
     SpeechRecognizer mySpeechRecognizer;
-    string speechText = "";
+    string mySpeechText = "";
+    string myPreviousInputText = "";
 
     void Start()
     {
@@ -56,15 +57,13 @@ public class ObjectCreator : MonoBehaviour
 
         mySpeechRecognizer.Recognizing += (s, e) =>
         {
-            speechText = e.Result.Text; //Change continuously
-            Debug.Log(speechText);
+            mySpeechText = e.Result.Text; //Change continuously
+            Debug.Log(e.Result.Text);
         };
 
         mySpeechRecognizer.Recognized += (s, e) =>
         {
-            myInputfield.text += speechText; //Update the input when done speeching
-            speechText = "";
-            Debug.Log(myInputfield.text);
+            mySpeechText = "";
         };
 
         StartOrStopSpeech();
@@ -72,7 +71,19 @@ public class ObjectCreator : MonoBehaviour
 
     void Update()
     {
-        myInputfield.text = speechText;
+        if (mySpeechText == "")
+        {
+            myPreviousInputText = myInputfield.text;
+        }
+        else
+        {
+            myInputfield.text = myPreviousInputText + " " + mySpeechText;
+
+            //Move to the end of the text
+            myInputfield.caretPosition = myInputfield.text.Length;
+            myInputfield.ActivateInputField(); //Text needs to be selected
+        }
+
         //User presses Enter
         //if (myInputfield.text.Length > 0 && Input.GetKeyUp(KeyCode.Return)) 
         //{
