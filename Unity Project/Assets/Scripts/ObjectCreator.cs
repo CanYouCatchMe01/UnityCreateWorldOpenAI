@@ -24,6 +24,15 @@ public class ObjectCreator : MonoBehaviour
     public TMP_InputField myInputfield;
     public TMP_Text myTPMText;
     
+    //create a list of gameobjects
+    class GameObjectData
+    {
+        public int myID;
+        GameObject myGameObject;
+    }
+
+    List<GameObjectData> myGameObjects = new List<GameObjectData>();
+
     //OpenAI
     OpenAI_API.OpenAIAPI myOpenAIAPI;
     Task<CompletionResult> myGenerateTask = null;
@@ -149,6 +158,4 @@ public class ObjectCreator : MonoBehaviour
     {
 
     }
-
-
 }
